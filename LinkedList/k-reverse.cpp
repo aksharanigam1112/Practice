@@ -46,14 +46,23 @@ SLL *reverse(SLL *head, int k)
 
 int main()
 {
-    SLL *head;
+    SLL *head,*temp;
    
+    head = insert(head,'g');
     head = insert(head,'f');
     head = insert(head,'e');
     head = insert(head,'d');
     head = insert(head,'c');
     head = insert(head,'b');
     head = insert(head,'a');
+    
+    temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+    cout<<endl;
 
     SLL * rev = reverse(head,4);
     while(rev!=NULL)
@@ -61,4 +70,5 @@ int main()
         cout<<rev->data<<" ";
         rev = rev->next;
     }
+    cout<<endl;
 }
