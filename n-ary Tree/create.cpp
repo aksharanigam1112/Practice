@@ -16,6 +16,7 @@ node* newNode(int data)
     return n;
 }
 
+// BFS
 void print(node*root)
 {
     queue<node*>q;
@@ -44,19 +45,24 @@ void print(node*root)
 
 int main()
 {
-    node* root = newNode(0);
-    (root->children).push_back(newNode(1));
-    (root->children).push_back(newNode(2));
+            //         0
+            //     1   2   3
+            // 4   5       6   7   8
+            // 9 
+
+    node* root = newNode(1);
     (root->children).push_back(newNode(3));
+    (root->children).push_back(newNode(2));
+    (root->children).push_back(newNode(4));
 
-    (root->children[0]->children).push_back(newNode(4));
     (root->children[0]->children).push_back(newNode(5));
+    (root->children[0]->children).push_back(newNode(6));
 
-    (root->children[2]->children).push_back(newNode(6));
-    (root->children[2]->children).push_back(newNode(7));
-    (root->children[2]->children).push_back(newNode(8));
+    // (root->children[2]->children).push_back(newNode(6));
+    // (root->children[2]->children).push_back(newNode(7));
+    // (root->children[2]->children).push_back(newNode(8));
 
-    (root->children[0]->children[0]->children).push_back(newNode(9));
+    // (root->children[0]->children[0]->children).push_back(newNode(9));
 
     print(root);
 }
