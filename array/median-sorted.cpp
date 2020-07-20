@@ -2,9 +2,12 @@
 #include<iostream>
 using namespace std;
 
+// Optimized TC: O(min(LogN,LogM))  SC : O(1)
+
+
 // TC : O(N) SC : O(1)
 
-float findMedian(int a[], int n1, int b[], int n2) 
+float findMedian1(int a[], int n1, int b[], int n2) 
 { 
 	int i = 0,j = 0,m1 = -1, m2 = -1;
 
@@ -41,17 +44,17 @@ float findMedian(int a[], int n1, int b[], int n2)
 	} 
 
 	if ((n1 + n2) % 2 == 0) 
-		return (m1 + m2)/ 2; 
+		return (m1 + m2)*1.0/2; 
 
 	return m1; 
 } 
 
 int main() 
 { 
-	int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    int b[] = { 11, 12, 13, 14, 15, 16, 17, 18, 19 };  
+	int a[] = {1, 2,};
+    int b[] = {3,4};  
 	int n1 = sizeof(a) / sizeof(a[0]); 
 	int n2 = sizeof(b) / sizeof(b[0]); 
 
-	cout<<"Median is : "<<findMedian(a, n1, b, n2)<<endl;
+	cout<<"Median is : "<<findMedian1(a, n1, b, n2)<<endl;
 } 
