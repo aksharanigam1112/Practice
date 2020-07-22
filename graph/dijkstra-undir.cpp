@@ -35,6 +35,7 @@ class Graph
 
 			vector<int> dist(V,INT_MAX); 
 
+			// We add (distance,node) in the priority queue
 			pq.push(make_pair(0, src)); 
 			dist[src] = 0; 
 
