@@ -1,87 +1,79 @@
-// single source shortest path to all other nodes for a WEIGHTED GRAPH
 #include<iostream>
-#include<bits/stdc++.h>
-using namespace std;
+#include<bits/stdc++.h> 
+using namespace std; 
 
 class Graph
 {
-    int v;
-    map<int,list<pair<int,int>>>adj;
-    
-    public:
-    Graph(int nodes)
-    {
-        v = nodes;
-    }
+    private : 
+        map<int,vector<pair<int,int>>>adj;
+        int V;
 
-    void addEdge(int u,int v, int weight)
-    {
-        adj[u].push_back(make_pair(v,weight));
-        // adj[v].push_back(make_pair(u,weight));
-    }
+		void print(vector<int>dist)
+		{
+			cout<<"Shortest Distance from Source : "<<endl; 
+			for (int i=0; i<V; i++) 
+				cout<<i<<" : "<<dist[i]<<endl; 
+		}
 
-    void print()
-    {
-        for(auto p : adj)
+	public : 
+
+        Graph(int nodes)
         {
-            cout<<p.first<<"-->";
-            for(auto l : p.second)
-            {
-                cout<<l.first<<" , "<<l.second;
-            }
-            cout<<endl;
-        }
-    }
-
-    void dijkstra(int src)
-    {
-        map<int,int>dist;
-
-        for(auto j : adj)
-        {
-            dist[j.first] = INT_MAX;
+            V = nodes;
         }
 
-        // First parameter is distance bcoz in distance sorting happens
-        // acc to the first parameter
-        set<pair<int,int>>s;
+        void addEdge(int u, int v, int wt) 
+        { 
+            adj[u].push_back(make_pair(v, wt)); 
+            adj[v].push_back(make_pair(u, wt)); 
+        } 
 
-        dist[src] = 0;
-        s.insert(make_pair(0,src));
+		// TC : O(E Log V)
+		void dijkstra(int src) 
+		{ 
+			priority_queue<pair<int,int>, vector<pair<int,int>> , greater<pair<int,int>>>pq; 
 
-        while(!s.empty())
-        {
-            auto p = *(s.begin());
-            int node = p.second;
-            int nodeDist = p.first;
+			vector<int> dist(V,INT_MAX); 
 
-            s.erase(s.begin());
+			pq.push(make_pair(0, src)); 
+			dist[src] = 0; 
 
-            // Iterate over nbrs of current node
-            for(auto nbr : adj[node])
-            {
-                if(nodeDist + nbr.second < dist[nbr.first])
-                {
+			while (!pq.empty()) 
+			{ 
+				// extract the node
+				int u = pq.top().second; 
+				pq.pop(); 
 
-                }
-            }
-        }
+				for (auto x : adj[u]) 
+				{ 
+					int v = x.first; 
+					int weight = x.second; 
 
-    }
-
+					if(dist[v] > dist[u] + weight) 
+					{ 
+						dist[v] = dist[u] + weight; 
+						pq.push(make_pair(dist[v], v)); 
+					} 
+				} 
+			} 
+			print(dist);
+		} 
 };
 
-int main()
-{
-    Graph g(6);
+int main() 
+{ 
+	Graph g(6);
+	
+	g.addEdge(0,1,5);
+	g.addEdge(0,2,10);
+	g.addEdge(1,2,2);
+	g.addEdge(1,3,7);
+	g.addEdge(2,3,8);
+	g.addEdge(2,4,2);
+	g.addEdge(2,5,8);
+	g.addEdge(3,4,1);
+	g.addEdge(4,5,4);
 
-    g.addEdge(0,1,4);
-    g.addEdge(0,2,1);
-    g.addEdge(1,2,2);
-    g.addEdge(1,3,8);
-    g.addEdge(3,4,3);
-    g.addEdge(4,5,2);
-    g.addEdge(2,5,1);
+	g.dijkstra(0);
 
-    g.dijkstra(0);
-}
+} 
