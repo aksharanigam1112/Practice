@@ -17,6 +17,7 @@ class Graph
     }
 
     public :
+    
     void convert(vector<vector<string>>eq,vector<double>val)
     {
         int k=0;
