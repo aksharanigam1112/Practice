@@ -3,6 +3,7 @@
 #include<iostream>
 using namespace std;
 
+// TC : O(N^2)
 int completeCircuit(int gas[], int cost[], int n)
 {
     int start, ans=-1;
