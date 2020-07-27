@@ -4,41 +4,28 @@
 #include<string>
 using namespace std;
 
-int generateKey(string word)
-{
-    map<int,int>hash;
-    for(int i=0;i<word.length();i++)
-    {
-        hash[word[i]]++;
-    }
-    int sum=0;
-    for(auto it : hash)
-    {
-        sum+=it.first * it.second;
-    }
-    return sum;
-}
 
-// TC : O(N*K) SC : O(N*K)
+// TC : O(N*K*LogK) SC : O(N*K)
 vector<vector<string>> groupAnagrams(vector<string>words)
 {
-    map<int,vector<int>>groups;
-
+    map<string,vector<string>>hash;
+ 
     for(int i=0;i<words.size();i++)
     {
-        int key = generateKey(words[i]);
-        groups[key].push_back(i);
+        string str,temp;
+        str = words[i];
+        temp = str;
+        sort(str.begin(),str.end());
+        hash[str].push_back(temp);
     }
+ 
+   vector<vector<string>>ans;
+
+    for(auto wd : hash)
+        ans.push_back(wd.second);
     
-    vector<vector<string>>ans;
-    for(auto it : groups)
-    {
-        vector<string>v;
-        for(auto wd : it.second)
-            v.push_back(words[wd]);
-        ans.push_back(v);
-    }
-    return ans;
+    return ans; 
+
 }
 
 void print(vector<vector<string>>ans)
@@ -54,7 +41,7 @@ void print(vector<vector<string>>ans)
 
 int main()
 {
-    vector<string>words = {"ACT","CAT","GOD","DOG","TAC","YES"};
+    vector<string>words = {"ACT","CAT","DOG","GOD","TAC","DUH","ILL"};
     vector<vector<string>>ans = groupAnagrams(words);
     print(ans);
 }
