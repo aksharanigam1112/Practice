@@ -36,15 +36,15 @@ int searchCostBST(int ele[], int freq[], int size)
         }
     }
 
-    cout<<endl;
-    for(int i=0;i<size;i++)
-    {
-        for(int j=i;j<size;j++)
-        {
-            cout<<cost[i][j]<<" ";
-        }
-        cout<<endl;
-    }
+    // cout<<endl;
+    // for(int i=0;i<size;i++)
+    // {
+    //     for(int j=i;j<size;j++)
+    //     {
+    //         cout<<cost[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
 
     return cost[0][size-1];
 }
