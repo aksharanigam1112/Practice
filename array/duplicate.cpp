@@ -1,4 +1,5 @@
-// Finding duplicate in an unsorted array of size n containing n-1 elements with atleast one duplicate
+// Finding duplicate in an unsorted array of size n 
+// containing n-1 elements with atleast one duplicate
 
 #include<iostream>
 #include<set>
