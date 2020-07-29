@@ -147,7 +147,7 @@ void nextPalindrome(int arr[], int size)
 
 int main()
 {
-    int arr[] = {9,4,1,8,7,9,7,8,3,2,2};
+    int arr[] = {1,0,1,0,0};
     int size = sizeof(arr)/sizeof(arr[0]);
     cout<<"Next Larger Palindromic No. : "<<endl;
     nextPalindrome(arr,size);
