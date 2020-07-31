@@ -28,7 +28,7 @@ void print(ll*head)
 }
 
 // TC : O(N) & SC : O(N)
-ll* removeSumKNodes(ll*head, int K)
+ll* removeSumKNodes(ll*head, int K,bool &foundSum)
 {
     ll* root = newNode(0);
     root->next = head;
@@ -45,6 +45,7 @@ ll* removeSumKNodes(ll*head, int K)
         if(storeSum.find(sum-K)!=storeSum.end())
         {   
             // Delete
+            foundSum = true;
             ll* prev = storeSum[sum-K];
             ll* start = prev;
             int temp = sum;
@@ -68,18 +69,32 @@ ll* removeSumKNodes(ll*head, int K)
     return root->next;
 }
 
+ll* deleteK(ll*head,int K)
+{
+    static bool foundSum=false;
+    while(1)
+    {
+        head = removeSumKNodes(head,K,foundSum);
+        if(foundSum==true)
+            foundSum = false;
+        else
+            break;
+    }
+    return head;
+}
+
 int main()
 {
     ll *head = newNode(1);
     head->next = newNode(2);
-    head->next->next = newNode(-3);
-    head->next->next->next = newNode(3);
+    head->next->next = newNode(3);
+    head->next->next->next = newNode(-3);
     head->next->next->next->next = newNode(1);
 
     cout<<"Initial List : ";
     print(head);
 
-    head = removeSumKNodes(head,0);
+    head = deleteK(head,0);
     cout<<"After removing the sum k nodes : ";
     print(head);
 }
