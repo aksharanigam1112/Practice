@@ -72,7 +72,8 @@ int longestPalSubstr(string str)
             --low;  
             ++high;  
         }  
-    }  
+    }
+    cout<<str.substr(start,maxLength)<<endl;  
     return maxLength;  
 }  
 
@@ -81,6 +82,6 @@ int main()
 {
     string str = "abpklkpntrtz";
     // cout<<maxSizePalin(str)<<endl;
-    cout<<longestPalSubstr(str)<<endl;
+    cout<<"Longest Palindromic Substring is : "<<longestPalSubstr(str)<<endl;
     return 0;
 }
