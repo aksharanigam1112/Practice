@@ -52,6 +52,29 @@ int segregate(int *arr , int n)
     return searchMinPos(arr+neg,n-neg);
 }
 
+// When vector is passed 
+int firstMissingPositive(vector<int>&arr) 
+{
+    int size = arr.size();
+    for (int i=0; i<size; i++)
+    {
+        if (arr[i]<=0) 
+            arr[i] = size+1;
+    }
+        
+    for (int i=0; i<size; i++)
+    {
+        if (abs(arr[i]) <= size && arr[abs(arr[i])-1]>0)
+            arr[abs(arr[i]) - 1] *= -1;
+    }
+        
+    for (int i=0; i<size; i++) 
+    {
+        if (arr[i]>0) 
+            return i+1;
+    }
+    return size+1;
+}
 
 
 int main()
