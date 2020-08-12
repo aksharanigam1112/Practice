@@ -6,6 +6,12 @@ struct node
     int data;
     node*left,*right;
 };
+struct validate
+{
+    bool isBST;
+    int min = INT_MAX, max = INT_MIN;
+};
+
 node* newNode(int key) 
 { 
     node *temp = new node; 
@@ -13,31 +19,45 @@ node* newNode(int key)
     temp->left = temp->right = NULL; 
     return temp; 
 }
-bool isBST(node*root,int lastVal)
+
+validate isBST(node*root)
 {
+    validate obj;
     if(root==NULL)
-        return true;
-    bool LV = isBST(root->left,lastVal);
-    if(!LV)
-        return true;
-    if(lastVal>root->data)
-        return false;
+    {
+        obj.isBST = true;
+        return obj;
+    }
+
+    validate LV = isBST(root->left);
+    validate RV = isBST(root->right);
+
+    if(!LV.isBST || !RV.isBST || root->data <= LV.max || root->data >= RV.min)
+    {
+        obj.isBST = false;
+        obj.max = max(root->data,RV.max);
+        obj.min = min(root->data,LV.min);
+        return obj;
+    }
     else
-        lastVal = root->data;    
-    return isBST(root->right,lastVal);
-    
+    {
+        obj.isBST = true;
+        obj.min = min(LV.min,root->data);
+        obj.max = max(RV.max,root->data);
+        return obj;
+    }
 }
 
 int main()
 {
-    struct node *root = newNode(5);
-    root->left = newNode(4);
-    root->right = newNode(8);
-    root->left->left = newNode(2);
+    struct node *root = newNode(1);
+    root->left = newNode(1);
+    // root->right = newNode(8);
+    // root->left->left = newNode(2);
     // root->left->right = newNode(8);
-    root->right->right = newNode(10);
+    // root->right->left = newNode(6);
+    // root->right->right = newNode(6);
     // root->right->left->right = newNode(10);
-    int lastVal = INT_MIN;
-    bool ans = isBST(root,lastVal);
-    cout<<ans<<endl;
+    
+    cout<<"Is BST ? "<<(isBST(root).isBST ? "Yes" : "No")<<endl;
 }
