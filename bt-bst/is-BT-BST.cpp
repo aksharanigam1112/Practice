@@ -50,13 +50,13 @@ validate isBST(node*root)
 
 int main()
 {
-    struct node *root = newNode(1);
-    root->left = newNode(1);
-    // root->right = newNode(8);
+    struct node *root = newNode(12);
+    root->left = newNode(5);
+    root->right = newNode(15);
     // root->left->left = newNode(2);
     // root->left->right = newNode(8);
-    // root->right->left = newNode(6);
-    // root->right->right = newNode(6);
+    root->right->left = newNode(15);
+    root->right->right = newNode(16);
     // root->right->left->right = newNode(10);
     
     cout<<"Is BST ? "<<(isBST(root).isBST ? "Yes" : "No")<<endl;
