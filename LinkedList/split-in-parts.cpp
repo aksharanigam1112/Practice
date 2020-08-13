@@ -37,6 +37,7 @@ vector<ll*> split(ll*head,int k)
     for(int i=0; i<k; i++)
     {
         ll* temp = curr;
+        // Rem will tell how many more elements to add to the inital vectors
         int size = width+(i<rem?1:0)-1;
         for(int j=0; j<size; j++) 
         {
