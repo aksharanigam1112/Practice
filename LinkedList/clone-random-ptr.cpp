@@ -21,6 +21,9 @@ ll* newNode(int data)
 // TC : O(N)    &   SC : O(1)
 ll* clone(ll *head) 
 { 
+    if(head==NULL)
+        return NULL;
+    
     ll* curr = head; 
 
     // Placing the nodes in between 
