@@ -12,7 +12,7 @@ void findcomb(vector<int>&arr,int target,int sum,vector<vector<int>>&ans
         return;
     }
         
-    for(int i=index+1;i<arr.size();i++)
+    for(int i=index;i<arr.size();i++)
     {
         if(sum+arr[i]<=target)
         {
@@ -32,7 +32,7 @@ vector<vector<int>> combinationSum(vector<int>&candidates, int target)
     // Create the set for the given vector 
     vector<vector<int>>ans;
     vector<int>v;
-    findcomb(candidates,target,0,ans,v,-1);
+    findcomb(candidates,target,0,ans,v,0);
     return ans;
 }
 
