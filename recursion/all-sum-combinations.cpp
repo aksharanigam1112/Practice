@@ -3,8 +3,8 @@
 #include<vector>
 using namespace std;
 
-void findcomb(vector<int>&arr,int target,int sum,
-                vector<vector<int>>&ans,vector<int>&v,int index)
+void findcomb(vector<int>&arr,int target,int sum,vector<vector<int>>&ans
+                    ,vector<int>&v,int index)
 {
     if(sum==target)
     {
@@ -12,7 +12,7 @@ void findcomb(vector<int>&arr,int target,int sum,
         return;
     }
         
-    for(int i=index;i<arr.size();i++)
+    for(int i=index+1;i<arr.size();i++)
     {
         if(sum+arr[i]<=target)
         {
@@ -28,16 +28,18 @@ void findcomb(vector<int>&arr,int target,int sum,
 }
 vector<vector<int>> combinationSum(vector<int>&candidates, int target) 
 {
+    // To avoid duplicate copies [2,1,5],[1,2,5] etc
+    // Create the set for the given vector 
     vector<vector<int>>ans;
     vector<int>v;
-    findcomb(candidates,target,0,ans,v,0);
+    findcomb(candidates,target,0,ans,v,-1);
     return ans;
 }
 
 int main()
 {
-    vector<int>arr = {1,2,3,5};
-    int target=6;
+    vector<int>arr = {10,1,2,7,6,1,5};
+    int target=8;
     vector<vector<int>>ans = combinationSum(arr,target);
 
     for(auto it : ans)
