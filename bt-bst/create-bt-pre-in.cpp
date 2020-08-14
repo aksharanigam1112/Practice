@@ -1,4 +1,5 @@
 // Create BST from its preorder and inorder traversal
+// No duplicates exist
 #include<iostream>
 using namespace std;
 struct node
