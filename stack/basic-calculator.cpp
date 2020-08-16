@@ -8,7 +8,6 @@ using namespace std;
 
 int calculate(string str) 
 {
-
     stack<int>s;
     int operand=0,result=0,sign=1; 
 
@@ -54,6 +53,6 @@ int calculate(string str)
 
 int main()
 {
-    string str = "(1+(4+5+2)-3)+(6+8)";
+    string str = "123+5";
     cout<<"Ans of the expression : "<<calculate(str)<<endl;
 }
