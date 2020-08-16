@@ -6,6 +6,7 @@
 #include<string>
 using namespace std;
 
+// TC : O(N)    &   SC : O(N)
 int calculate(string str) 
 {
     stack<int>s;
