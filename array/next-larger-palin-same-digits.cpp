@@ -1,25 +1,19 @@
 // Given a palindromic number having n number of digits. 
 // Find the next larger palindromic number greater than the given using the same set of digits 
-// C++ implementation to find next higher 
-// palindromic number using the same set 
-// of digits 
 #include<iostream>
 #include<string> 
 using namespace std; 
 
-// function to reverse the digits in the 
-// range i to j in 'arr' 
 void reverse(string arr, int i, int j) 
 { 
-	while (i < j) { 
+	while (i < j) 
+	{ 
 		swap(arr[i], arr[j]); 
 		i++; 
 		j--; 
 	} 
 } 
 
-// function to find next higher palindromic 
-// number using the same set of digits 
 string nextPalin(string arr) 
 { 
     int n = arr.length();
@@ -66,7 +60,6 @@ string nextPalin(string arr)
 	return arr; 
 } 
 
-// Driver program to test above 
 int main() 
 { 
 	string arr = "4697557964"; 
