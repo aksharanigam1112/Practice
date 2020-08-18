@@ -5,6 +5,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Top Down 
 int cricket(int r,int b,int w,vector<vector<vector<int>>>&dp)
 {
     if(b<0 || r<0)
@@ -21,7 +22,7 @@ int cricket(int r,int b,int w,vector<vector<vector<int>>>&dp)
         return dp[r][b][w];
     
     int ans=0;
-    
+
     // 6 runs
     ans+=cricket(r-6,b-1,w,dp);
     ans = ans%1000000007;
@@ -54,7 +55,5 @@ int main()
                 dp[i][j][k] = -1;
         }
     }
-
     cout<<"No of ways are : "<<cricket(r,b,w,dp)<<endl;
-
 }
