@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-   int rob(int nums, int size) 
+   int rob(int nums[], int size) 
     {
         if(size==0)
             return 0;
