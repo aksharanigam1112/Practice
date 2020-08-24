@@ -1,6 +1,6 @@
 // On moving from left to right all left children should be present
 
-// LH = RV ; Left ==> Full && Right ==> Complete  =====> Complete
+// LH = RH ; Left ==> Full && Right ==> Complete  =====> Complete
 // LH = RH+1 ; Left ==> Complete && Right ==> Full  =====> Complete
 
 #include<iostream>

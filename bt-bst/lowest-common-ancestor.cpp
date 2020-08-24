@@ -20,11 +20,11 @@ node* commonAncestor(node*root,node*p1,node*p2)
     if(root==NULL)
         return NULL;
         
-       if(root==p1 || root==p2)
-           return root;
+    if(root==p1 || root==p2)
+       return root;
     
     node* LV = commonAncestor(root->left,p1,p2);
-    node*RV = commonAncestor(root->right,p1,p2);
+    node* RV = commonAncestor(root->right,p1,p2);
 
     if(LV!=NULL && RV!=NULL)
         return root;
