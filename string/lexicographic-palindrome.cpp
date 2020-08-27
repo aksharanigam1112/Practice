@@ -1,4 +1,4 @@
-// You are given a string. Find the lexographically smallest palindrome 
+// You are given a string. Find the lexicographically smallest palindrome 
 // you can make using the string characters only. If you cannot print -1.
 #include<iostream>
 #include<bits/stdc++.h>
