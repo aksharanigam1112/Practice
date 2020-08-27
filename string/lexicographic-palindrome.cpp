@@ -11,11 +11,11 @@ string palindrome(string str)
 
     char ans[str.length()];
 
-    // Count the frequencies of each character;  
+    // Count the frequencies of each character
     for(int i=0;i<str.length();i++)
         count[str[i]]++;
     
-    int found = 0,mid,n = str.length();
+    int found = 0,mid,n = str.length(),i;
     char ch;
 
     // Find the charater that repeats odd times
@@ -30,7 +30,7 @@ string palindrome(string str)
 
     // If more than one character occurs odd no. of times then not possible
     if(found>1)
-        return "";
+        return "-1";
 
     // For odd length string 
     if(n%2!=0)
@@ -39,34 +39,24 @@ string palindrome(string str)
         ans[mid] = ch;
         count[ch]--;
 
-        int i = mid-1;
-
-        for(auto it : count)
-        {
-            if(it.second>0 && i>=0)
-            {
-                ans[i] = it.first;
-                ans[n-1-i] = it.first;
-                count[it.first]-=2;
-                i--;
-            }
-        }
+        i = mid-1;
     }
     // For even length string
     else
     {
         mid = n/2 -1;
-        int i = mid;
+        i = mid;
+    }
 
-        for(auto it : count)
+    // TC : O(N) 
+    for(auto it : count)
+    {
+        while(it.second>0 && i>=0)  // Amortized cost
         {
-            if(it.second>0 && i>=0)
-            {
-                ans[i] = it.first;
-                ans[n-1-i] = it.first;
-                count[it.first]-=2;
-                i--;
-            }
+            ans[i] = it.first;
+            ans[n-1-i] = it.first;
+            it.second-=2;
+            i--;
         }
     }
 
@@ -80,6 +70,6 @@ string palindrome(string str)
 
 int main()
 {
-    string str = "aacbb";
+    string str = "malayalam";
     cout<<"Lexicographic Palindrome String : "<<palindrome(str)<<endl;
 }
