@@ -8,7 +8,7 @@ string palindrome(string str)
 {
     // Store in descending order
     map<char,int,greater<char>>count;
-    
+
     char ans[str.length()];
 
     // Count the frequencies of each character;  
