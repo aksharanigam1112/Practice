@@ -8,7 +8,7 @@ typedef pair<int,int> p;
 
 int minTime(int arr[][3], int n, int m)
 {
-    // To store the sum of time req by each section along with its task no.
+    // To store the sum of time req by each section along with its pos.
     // Min heap
     priority_queue<p,vector<p>,greater<p>> pq;
 
@@ -30,7 +30,6 @@ int minTime(int arr[][3], int n, int m)
     }
     return tasks[0]+tasks[1]+tasks[2];
 }
-
 
 int main()
 {
