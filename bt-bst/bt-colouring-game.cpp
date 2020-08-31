@@ -1,4 +1,4 @@
-// We are given the root of this binary tree, and the number of nodes n in the tree.  
+// We are given the root of this binary tree and the number of nodes n in the tree.  
 // n is odd, and each node has a distinct value from 1 to n.
 // Player 1 ==> x ==> Red
 // Player 2 ==> y ==> Blue
