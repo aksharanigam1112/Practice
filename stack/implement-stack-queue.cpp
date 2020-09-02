@@ -16,14 +16,14 @@ class Stack
 
     int pop_data()
     {
-        int d;
         while(st1.size()>1)
         {
             st2.push(st1.front());
             st1.pop();
         }
-        d = st1.front();
-        st1.pop();
+        int d = st1.size()>0 ? st1.front() : 999999;
+        if(st1.size()>0)
+            st1.pop();
 
         swap(st1,st2);
         return d;
