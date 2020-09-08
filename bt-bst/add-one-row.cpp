@@ -1,6 +1,8 @@
-// Given the root of a binary tree, then value v and depth d, 
+// Given the root of a binary tree, value v & depth d, 
 // you need to add a row of nodes with value v at the given depth d. 
 // The root node is at depth 1. 
+// original left subtree should be the left subtree of the new left subtree root, 
+// its original right subtree should be the right subtree of the new right subtree root.
 #include<iostream>
 using namespace std;
 struct node
