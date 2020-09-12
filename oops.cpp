@@ -18,7 +18,7 @@ class A
     }
 };
 
-class B : public A
+class B //: public A
 {
     public:
     B()
@@ -35,17 +35,39 @@ class B : public A
     }
 };
 
+class C :  public B // , public A
+{
+    public:
+    C()
+    {
+        cout<<"Const of C called"<<endl;
+    }
+    void display()
+    {
+        cout<<"In class C"<<endl;
+    }
+    ~C()
+    {
+        cout<<"Dest of C called"<<endl;
+    }
+};
+
 int main()
 {
 
-    // Copy constructor (Parent class mein hi child class ka const store ho sakta hai)
-    A obj1 = B();
-    obj1.display();
+    // // Copy constructor (Parent class mein hi child class ka const store ho sakta hai)
+    // A obj1 = B();
+    // obj1.display();
     
-    // Creating obj of B type is not allowed
+    // // Creating obj of B type is not allowed
     // B obj = A();
 
-    // Creating obj of B
+    // // Creating obj of B
     // B obj2;
     // obj2.display();
+
+    // // Creating obj for multiple inheritance
+    C obj3;
+    obj3.display();
+
 }
