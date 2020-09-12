@@ -18,7 +18,7 @@ class A
     }
 };
 
-class B //: public A
+class B : public A
 {
     public:
     B()
@@ -35,7 +35,7 @@ class B //: public A
     }
 };
 
-class C :  public B // , public A
+class C :  public B // ,public A
 {
     public:
     C()
