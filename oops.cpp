@@ -56,6 +56,8 @@ int main()
 {
 
     // // Copy constructor (Parent class mein hi child class ka const store ho sakta hai)
+    // //(Kyonki B ka const call hoke khatam ho jaa raha as uska assignment A) 
+    // // (mein ho raha isliye dest bhi call ho rahe)
     // A obj1 = B();
     // obj1.display();
     
