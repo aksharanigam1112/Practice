@@ -6,8 +6,7 @@ void heapify(int arr[], int n, int i)
 	if(i>n)
         return;
 
-    // int largest = i;
-	int l = 2*i + 1;  
+    int l = 2*i + 1;  
 	int r = 2*i + 2; 
 
     if(l>=n)
@@ -20,12 +19,6 @@ void heapify(int arr[], int n, int i)
         swap(arr[minEle],arr[i]);
         heapify(arr,n,minEle);
     }
-
-    
-    cout<<"After heapify : ";
-    for (int j=0; j<n; ++j) 
-		cout << arr[j] << " "; 
-	cout<<endl;  
 } 
 
 void heapSort(int arr[], int n) 
