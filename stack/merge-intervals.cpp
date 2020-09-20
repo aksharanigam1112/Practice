@@ -1,1 +1,1 @@
-// Merge the given intervals
+//  Given a set of intervals merge all the ovrlapping intervals
