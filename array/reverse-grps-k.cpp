@@ -38,5 +38,6 @@ int main()
     int size = sizeof(arr)/sizeof(arr[0]);
 
     reverseK(arr,0,size,3);
+    cout<<"Reversed array in groups : ";
     print(arr,size);
 }   
