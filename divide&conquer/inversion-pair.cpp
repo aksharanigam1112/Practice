@@ -3,7 +3,7 @@
 using namespace std;
 
 // TC : O(N LogN) SC : O(N)
-
+// Divide & Conquer
 int mergeCount(int*arr, int start, int mid, int end, int *copy)
 {
     if(start>=end)
