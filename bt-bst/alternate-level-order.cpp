@@ -22,13 +22,28 @@ void traverseAlternate(map<int,vector<char> > hash,int level)
     
     while(it1!=hash.end())
     {
-        for(int i=0;i<it1->second.size();i++)
+        if(it1->first%2!=0)
         {
-            cout<<it1->second[i]<<" ";
+            for(int i=0;i<it1->second.size();i++)
+            {
+                cout<<it1->second[i]<<" ";
+            }
+            cout<<endl;
         }
-        cout<<endl;
         it1++;
-        // it1++;
+    }
+    it1 = hash.begin();
+    while(it1!=hash.end())
+    {
+        if(it1->first%2==0)
+        {
+            for(int i=0;i<it1->second.size();i++)
+            {
+                cout<<it1->second[i]<<" ";
+            }
+            cout<<endl;
+        }
+        it1++;
     }
 }
 
