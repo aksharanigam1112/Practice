@@ -19,7 +19,7 @@ int maxProductSubset(int arr[], int size)
         if(arr[i]<0)
         {
             neg++;
-            min_neg = min(min_neg,-arr[i]);
+            min_neg = min(min_neg,arr[i]);
         }
         if(arr[i]>0)
             pos++;
@@ -31,7 +31,7 @@ int maxProductSubset(int arr[], int size)
     }
 
     if(neg%2!=0)
-        prd = prd/-min_neg;
+        prd = prd/min_neg;
     if(neg==1 && hasZero && pos==0)
         prd=0;
 
@@ -40,7 +40,7 @@ int maxProductSubset(int arr[], int size)
 
 int main()
 {
-    int arr[] = {4,-8,0,8};
+    int arr[] = {4,-8,8};
     int n = sizeof(arr)/sizeof(arr[0]);
 
     cout<<"Maximum product is : "<<maxProductSubset(arr,n)<<endl;
