@@ -15,27 +15,28 @@ node* newNode(char key)
     return temp; 
 }
 
-void printView(map<int,char>&hash)
+void printView(map<int,pair<char,int> >&hash)
 {
-    map<int,char>::iterator it;
-    for(it=hash.begin();it!=hash.end();it++)
-    {
-        cout<<it->second<<" ";
-    }
+    for(auto it=hash.begin();it!=hash.end();it++)
+        cout<<it->second.first<<" ";
     cout<<endl;
 }
 
-void bottomView(node*root,int HD , int level,map<int,char>&hash)
+void bottomView(node*root,int HD , int level,map<int,pair<char,int> >&hash)
 {
     if(root==NULL)
         return ;
 
     if(hash.find(HD) == hash.end())
+        hash[HD] = make_pair(root->data,level);
+    else
     {
-        hash.insert(make_pair(HD,root->data));
+        if(hash[HD].second <= level)
+        {
+            hash[HD].first = root->data;
+            hash[HD].second = level;
+        }
     }
-    // else
-    //     hash[HD] = root->data;
     bottomView(root->left,HD-1,level+1,hash);
     bottomView(root->right,HD+1,level+1,hash);
 }
@@ -63,7 +64,7 @@ int main()
     root->right->right->left = newNode('m');
     root->right->right->right = newNode('l');
 
-    map<int,char>hash;
+    map<int,pair<char,int> >hash;
     bottomView(root,0,1,hash);
     printView(hash);
 }
