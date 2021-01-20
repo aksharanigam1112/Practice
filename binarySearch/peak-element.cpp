@@ -21,7 +21,7 @@ int findPeak(int arr[], int size)
         else
             low = mid+1;
     }
-    // return -1;
+    return -1;
 }
 
 int main()
