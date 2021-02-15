@@ -1,48 +1,50 @@
 #include<iostream>
 #include<bits/stdc++.h>
 using namespace std;
-class SLL
+
+struct node
 {
-    public:
-    char data;
-    SLL *next;
+    int data;
+    node*next;
 };
 
-
-SLL* reverseRecur(SLL*head)
+node* newNode(int data)
 {
-    if(head==NULL || head->next == NULL )
-        return head;
+    node *n = new node;
+    n->data = data;
+    n->next = NULL;
+    return n;
+}
+
+bool isPalindromeUtil(node**left, node* right) 
+{ 
+    if (right == NULL) 
+        return true; 
     
-    SLL * newhead = reverseRecur(head->next);
-    head->next->next = head;
-    head->next = NULL;
-    return newhead;
-}
+    bool isp = isPalindromeUtil(left, right->next); 
 
-SLL * getMid(SLL*head)
+    if (isp == false) 
+        return false; 
+ 
+    bool isp1 = (right->data == (*left)->data); 
+ 
+    *left = (*left)->next; 
+ 
+    return isp1; 
+} 
+ 
+bool isPalindrome(node* head) 
+{ 
+    isPalindromeUtil(&head, head); 
+} 
+
+int main()
 {
-    int count=0;
-    SLL *flag = head;
-    while(flag!=NULL)
-    {
-        count++;
-        flag = flag->next;
-    }
-    int mid = 0;
-    while(mid<count/2)
-    {
-        mid++;
-        head = head->next;
-    }
-    return head;
-}
+    node* head = newNode(1);
+    head->next = newNode(2);
+    head->next->next = newNode(3);
+    head->next->next->next = newNode(2);
+    head->next->next->next->next = newNode(1);
 
-
-bool isListPalindrome(SLL*head)
-{
-    if(head==NULL || head->next == NULL)
-        return true;
-    SLL * mid = getMid(head);
-    SLL *shead = 
+    cout<<"Is Palindromic or not ? "<<(isPalindrome(head)?"Yes":"No")<<endl;
 }
