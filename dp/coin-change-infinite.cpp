@@ -39,7 +39,7 @@ int exchangeBU(int arr[] , int N , int size )
     {
         for(int j=1;j<=N;j++)       // Sum we want to make
         {
-            results[i][j] = min(results[i-1][j] , 1+results[i][j-arr[i-1]]);
+            results[i][j] = min(results[i-1][j] , 1+results[i][j-arr[i]]);
         }
     }
     
@@ -59,8 +59,8 @@ int exchangeBU(int arr[] , int N , int size )
 
 int main()
 {
-    int arr[] = {1,2,5,7,20};
-    int N = 16 , size = 5 ;
+    int arr[] = {1,2,5,7};
+    int N = 9 , size = 4 ;
    
     cout<<"Min coins required :- "<<exchangeBF(arr,N,size)<<endl;
     cout<<"Min coins required :- "<<exchangeBU(arr,N,size)<<endl;
