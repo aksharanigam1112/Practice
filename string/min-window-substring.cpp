@@ -1,64 +1,71 @@
-// Given a string S and a string T, find the min window in S which will contain 
-// all the characters in T.
+// Minimum substring with all chars from a given pattern
+// For example : s = "ADOBECODEBANC", t = "ABC"
+// Output: "BANC"
+// Sliding window concept
 #include<iostream>
-#include<bits/stdc++.h> 
-using namespace std; 
-#define no_of_chars 256
+#include<string>
+#include<map>
+#define INF 9999999
+using namespace std;
 
-string findSubString(string str, string pat) 
-{ 
-	int len1 = str.length(); 
-	int len2 = pat.length(); 
+string min_window_substring(string str, string pat)
+{
+	map<char, int>m;
+	int i=0, start=-1, window_len=INF, count=0;
+	
+	// Create a map of the characters in pattern
+	for(char c : pat)
+	{
+		m[c]++;
+	}
+	count = m.size();
 
-	if (len1 < len2)  
-		return ""; 
+	for(int j=0;j<str.length();j++)
+	{
+		if(m.find(str[j]) != m.end())
+		{
+			m[str[j]]--;
+			if(m[str[j]] == 0)
+				count--;
+		}
 
-	int hash_pat[no_of_chars] = {0}; 
-	int hash_str[no_of_chars] = {0}; 
+		// If the window contains all the elements of the pattern
+		if(count == 0)
+		{
+			// Reduce the window size, as far as count is still 0
+			while(i<=j && count == 0)
+			{
+				if(j-i+1 < window_len)
+				{
+					window_len = j-i+1;
+					start = i;
+				}
 
-	for(int i=0; i<len2; i++) 
-		hash_pat[pat[i]]++; 
+				// If the left char (i) belongs to map, increase its value
+				if(m.find(str[i]) != m.end())
+				{
+					m[str[i]]++;
+					if(m[str[i]] == 1)
+						count++;	
+				} 
+				
+				i++;
+			}
+		}
+	}
 
-	int start = 0, start_index = -1, min_len = INT_MAX; 
+	if(start == -1)
+		return "";
 
-	int count = 0; 
-	for (int j=0; j<len1 ; j++) 
-	{ 
-		hash_str[str[j]]++; 
+	return str.substr(start, window_len);
 
-		if(hash_pat[str[j]] != 0 && hash_str[str[j]] <= hash_pat[str[j]] ) 
-			count++; 
+}
 
-		if (count == len2) 
-		{ 
-			// Reducing the window size
-			while( hash_str[str[start]] > hash_pat[str[start]] || hash_pat[str[start]] == 0) 
-			{ 
-				if (hash_str[str[start]] > hash_pat[str[start]]) 
-					hash_str[str[start]]--; 
-				start++; 
-			} 
 
-			// update window size 
-			int len_window = j - start + 1; 
-			if (min_len > len_window) 
-			{ 
-				min_len = len_window; 
-				start_index = start; 
-			} 
-		} 
-	} 
-
-	if (start_index == -1) 
-		return ""; 
-
-	return str.substr(start_index, min_len); 
-} 
-
-int main() 
-{ 
-	string str = "ADOBECODEBANC", pat = "ABC"; 
-
-	string ans = findSubString(str, pat);
-	cout<<"Smallest window is : "<<(ans =="" ? "Not Found" : ans)<<endl; 
-} 
+int main()
+{
+	// string pat = "ADOBECODEBANC", str = "ABC";
+	string str = "ABAACBAB", pat = "ABC";
+	string ans = min_window_substring(str, pat);
+	cout<<ans<<" "<<ans.length()<<endl;
+}
