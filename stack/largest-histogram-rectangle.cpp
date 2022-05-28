@@ -75,10 +75,45 @@ class Histogram
     }
 };
 
+int heights_building_area_from_left(int arr[], int len)
+{
+    // 1st pos -> value & 2ns pos is the index
+    stack<pair<int,int>> s;
+    int area = -1;
+
+    for(int i=0;i<len;i++)
+    {
+        pair<int,int>val;
+        
+        if(s.empty() || arr[i] > s.top().first)
+            val = {arr[i], i}; 
+
+        while(!s.empty() && arr[i] <= s.top().first)
+        {
+            val = s.top();
+            s.pop();
+            area = max(area, val.first * (i - val.second));
+        }
+
+        s.push({arr[i], val.second});
+        
+    }
+
+    while(!s.empty())
+    {
+        auto val = s.top();
+        area = max(area, val.first * (len-val.second));
+        s.pop();
+    }
+
+    return area;
+}
+
 int main()
 {
     int heights[] = {2,1,5,6,2,3};
     int size = sizeof(heights)/sizeof(heights[0]);
     Histogram h;
     cout<<"Max area formed by histograms : "<<h.largestRectangle(heights,size)<<endl;
+    cout<<"Max area formed by histograms : "<<heights_building_area_from_left(heights, size)<<endl;
 }
