@@ -1,6 +1,10 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
 int heights_building_painted_area(vector<int>arr)
 {
-	deque<pair<int,int>> from_left, from_right;
+	deque<int> from_left, from_right;
 	stack<pair<int,int>> s;
 	int area = -1;
 
@@ -20,7 +24,7 @@ int heights_building_painted_area(vector<int>arr)
 		}
 
 		s.push({arr[i], val});
-		from_left.push_back({arr[i], val});
+		from_left.push_back(val);
 		
 	}
 
@@ -44,19 +48,19 @@ int heights_building_painted_area(vector<int>arr)
 		}
 
 		s.push({arr[i], val});
-		from_right.push_front({arr[i], val});
+		from_right.push_front(val);
 	}
 
 
 	// Calculate area
-	while(!from_left.empty() && !from_right.empty())
+	for(int i=0;i<arr.size();i++)
 	{
 		auto left = from_left.front();
 		auto right = from_right.front();
 
-		int a = left.first * (right.second - left.second + 1);
+		int a = arr[i] * (right - left+ 1);
 
-		cout<<"("<<left.first<<","<<left.second<<") ("<<right.first<<","<<right.second<<") \tArea : "<<a<<endl;
+		cout<<arr[i]<<" "<<left<<" "<<right<<"\tArea : "<<a<<endl;
 		area = max(area, a);
 
 		from_left.pop_front();
@@ -64,4 +68,11 @@ int heights_building_painted_area(vector<int>arr)
 	}
 
 	return area;
+}
+
+
+int main()
+{
+	vector<int> arr = {2,1,5,6,2,3};
+	cout<<heights_building_painted_area(arr)<<endl;
 }
