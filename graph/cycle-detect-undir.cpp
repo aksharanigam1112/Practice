@@ -1,4 +1,4 @@
-//Cycle detection for a undirected graph
+//Cycle detection for an undirected graph
 //Check if the parent of the node is same as the nbr of the node or not
 
 #include<iostream>
@@ -42,6 +42,36 @@ class Graph
         }
         return false;
     }
+
+    bool isCycleBfs(int src) {
+        queue<int> q;
+        map<int,int> visited;
+
+        q.push(src);
+        visited[src] = -1;
+
+
+        while(!q.empty()) {
+            int ele = q.front();
+            q.pop();
+
+            for(int neighbour : adj[ele]) {
+
+                // Not visited
+                if(visited.find(neighbour) == visited.end()) {
+                    q.push(neighbour);
+                    visited[neighbour] = ele;
+
+                }
+                // visited && neighbour is not parent of ele
+                else if (visited[ele] != neighbour) 
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
 
     bool cycle()
     {
