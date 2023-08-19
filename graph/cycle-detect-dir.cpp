@@ -9,6 +9,8 @@ class Graph
 {
     list<int>*adj;
     int v;
+    map<int,bool>visited;
+
     public:
     Graph(int nodes)
     {
@@ -23,16 +25,11 @@ class Graph
 
     bool cycle()
     {
-        bool *visited = new bool[v];
-        memset(visited,false,sizeof(visited));
-
-        bool *path = new bool[v];
-        memset(path,false,sizeof(path));
-
-        return cycleCheck(0,visited,path);
+        map<int,bool>path;
+        return cycleCheckDfs(0, path);
     }
 
-    bool cycleCheck(int src,bool*visited,bool*path)
+    bool cycleCheckDfs(int src, map<int,bool>&path)
     {
         visited[src] = true;
         path[src] = true;
@@ -43,7 +40,7 @@ class Graph
                 return true;
             else if(!visited[nbr])
             {
-                bool cycle = cycleCheck(nbr,visited,path);
+                bool cycle = cycleCheckDfs(nbr,visited,path);
                 if(cycle)
                     return true;
             }
@@ -51,6 +48,45 @@ class Graph
 
         path[src] = false;
         return false;
+    }
+
+    // Similar to Kahn's algorithm to print topological sort using BFS
+    bool cycleCheckBfs() {
+        queue<int>q;
+        map<int,int> indegree;
+        int count = 0;
+
+        // Indegree
+        for(int i=0; i<v; i++) {
+            for(int j : adj[i])
+                indegree[j]++;
+        }
+
+        // Push elements to queue iff the indegree = 0
+        for(int i=0;i<v;i++) {
+            if(indegree[i] == 0)
+                q.push(i);
+        }
+
+        
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            count++;
+
+            for(int nbr : adj[node]){
+                
+                indegree[nbr]--;
+                if(indegree[nbr] == 0)
+                    q.push(nbr);
+            }
+        }
+
+        if(count == v)
+            return false;
+
+        return true;
     }
 };
 
@@ -66,5 +102,7 @@ int main()
     g.addEdge(4,5);
     g.addEdge(5,6);
 
-    cout<<"Cycle detected or not :- "<<(g.cycle()?"Yes" : "No")<<endl;
+    cout<<"Cycle detected or not using DFS :- "<<(g.cycle()?"Yes" : "No")<<endl;
+
+    cout<<"Cycle detected or not using BFS :- "<<(g.cycleCheckBfs()?"Yes" : "No")<<endl;
 }
