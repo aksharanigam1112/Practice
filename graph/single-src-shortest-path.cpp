@@ -1,4 +1,5 @@
 // Distance calculated by level order traversal is the shortest for unweighted graph
+// NOTE : DFS does not give shortest path since each edge has same weight 
 
 #include<iostream>
 #include<bits/stdc++.h>
