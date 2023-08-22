@@ -1,4 +1,4 @@
-# Find shortest path from a source node to all other nodes, for a directed weighted graph
+// Find shortest path from a source node to all other nodes, for a directed weighted graph
 
 #include<iostream>
 #include<bits/stdc++.h>
