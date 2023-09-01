@@ -36,8 +36,8 @@ class Graph {
 					q.push(nbr);
 					visited[nbr] = !visited[node];
 				} 
-				// If nbr is already visited but has a different colour that what we are trying, 
-				// then it means two adjacent nodes have same colour=, hence not bipartite
+				// If nbr is already visited but has a different colour than what we are trying, 
+				// then it means two adjacent nodes have same colours, hence not bipartite
 				else {
 					int colour = !visited[node];
 					if(visited[nbr] != colour)
