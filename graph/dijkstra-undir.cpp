@@ -1,3 +1,8 @@
+// Given a source vertex s from a set of vertices V in a weighted digraph where all its edge weights w(u, v) are non-negative, 
+// find the shortest path weights d(s, v) from source s for all vertices v present in the graph.
+
+// NOTE : DIJKSTRA'S ALGO WORKS ONLY FOR NON -VE WEIGHTS
+
 #include<iostream>
 #include<bits/stdc++.h> 
 using namespace std; 
@@ -6,16 +11,18 @@ class Graph
 {
     private : 
         map<int,vector<pair<int,int>>>adj;
-        int V;
 
-		void print(vector<int>dist)
+		void print(int src, vector<int>dist)
 		{
-			cout<<"Shortest Distance from Source : "<<endl; 
-			for (int i=0; i<V; i++) 
-				cout<<i<<" : "<<dist[i]<<endl; 
+			cout<<"Shortest Distance from Source : "<<src<<endl; 
+			for (int i=0; i<V; i++) {
+				if (src !=  i && dist[i] != INT_MAX)
+					cout<<src<<" -> "<<i<<" : "<<dist[i]<<endl; 
+			}
 		}
 
 	public : 
+		int V;
 
         Graph(int nodes)
         {
@@ -57,24 +64,26 @@ class Graph
 					} 
 				} 
 			} 
-			print(dist);
+			print(src, dist);
 		} 
 };
 
 int main() 
 { 
-	Graph g(6);
+	Graph g(5);
 	
-	g.addEdge(0,1,5);
-	g.addEdge(0,2,10);
+	g.addEdge(0,1,10);
+	g.addEdge(0,4,3);
 	g.addEdge(1,2,2);
-	g.addEdge(1,3,7);
-	g.addEdge(2,3,8);
-	g.addEdge(2,4,2);
-	g.addEdge(2,5,8);
-	g.addEdge(3,4,1);
-	g.addEdge(4,5,4);
+	g.addEdge(1,4,4);
+	g.addEdge(2,3,9);
+	g.addEdge(3,2,7);
+	g.addEdge(4,1,1);
+	g.addEdge(4,2,8);
+	g.addEdge(4,3,2);
 
-	g.dijkstra(0);
+
+	for(int i=0;i<g.V;i++)
+		g.dijkstra(i);
 
 } 
