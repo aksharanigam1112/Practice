@@ -1,67 +1,86 @@
 #include<iostream>
-#include<math.h>
-#define MAX 100000
+#include<bits/stdc++.h>
 using namespace std;
 
+// TC : O(N^N) 	& 	SC : O(N) 
+int recursion(vector<int>&arr, int target) {
 
-// Brute Force TC : O(N^N)
-int exchangeBF(int arr[],int N,int size)
-{
-    if(N==0)
-        return 0;
+	if(target == 0)
+		return 0;
 
-    int min_coins = MAX;
+	if(target < 0)
+		return INT_MAX;
 
-    for(int i=0;i<size;i++)
-    {
-        if (arr[i] <= N)
-        {
-            int sub_res = exchangeBF(arr, N-arr[i],size); 
-            min_coins = min(min_coins , sub_res+1);
-        }      
-    }
-    return min_coins;
+	int min_cost = INT_MAX;
+
+	for(int i=0;i<arr.size();i++) {
+		
+		int ans = recursion(arr, target-arr[i]);
+		if(ans != INT_MAX)
+			min_cost = min(min_cost, 1+ans);
+	}
+
+	return min_cost;
 }
 
-// Bottom Up TC : O(N^2) SC : O(N^2)
-int exchangeBU(int arr[] , int N , int size )
-{
-    int results[size][N+1];
+// TC : O(N^2) 	& 	SC : O(N)
+int topDown(vector<int>&arr, vector<int>&dp, int target) {
 
-    for(int i=0;i<=N;i++)
-        results[0][i] = floor(i/arr[0]);
+	if(target == 0)
+		return 0;
 
-    for(int i=0;i<size;i++)
-        results[i][0] = 0;
-    
+	if(target < 0)
+		return INT_MAX;
 
-    for(int i=1;i<size;i++)        // Coins available
-    {
-        for(int j=1;j<=N;j++)       // Sum we want to make
-        {
-            results[i][j] = min(results[i-1][j] , 1+results[i][j-arr[i]]);
-        }
-    }
-    
-    cout<<endl;
-    for(int i=0;i<size;i++)
-    {
-        for(int j=0;j<=N;j++)
-        {
-            cout<<results[i][j]<<" ";
-        }
-        cout<<endl;
-    }
+	if(dp[target] != -1)
+		return dp[target]; 
 
-    return results[size-1][N];
+	int min_cost = INT_MAX;
+
+	for(int i=0;i<arr.size();i++) {
+		
+		int ans = recursion(arr, target-arr[i]);
+		if(ans != INT_MAX)
+			min_cost = min(min_cost, 1+ans);
+	}
+
+	dp[target] = min_cost;
+	return dp[target];
+}
+
+// TC : O(N^2) 	& 	SC : O(N) 
+int bottomUp(vector<int>&arr, int target) {
+
+	vector<int>dp(target+1, INT_MAX);
+	dp[0] = 0;
+
+	// Target
+	for(int i=1;i<=target;i++) {
+
+		// Coins
+		for(int j=0;j<arr.size();j++) {
+
+			if(i - arr[j] >= 0 && dp[i - arr[j]] != INT_MAX)
+				dp[i] = min(dp[i], 1+dp[i - arr[j]]);
+		}
+	}
+
+	return dp[target];
 }
 
 
-int main()
-{
-    int arr[] = {1,2,5,7};
-    int N = 9 , size = 4 ;
-   
-    cout<<"Min coins required :- "<<exchangeBF(arr,N,size)<<endl;
-    cout<<"Min coins required :- "<<exchangeBU(arr,N,size)<<endl;
+int main() {
+	vector<int> arr = {1,2,5,7};
+	int target = 11;
+
+	int ans1 = recursion(arr, target);
+	cout<<"Min coins required using recursion : "<<(ans1 == INT_MAX ? -1 : ans1)<<endl;
+
+	vector<int> dp(target+1, -1);
+	int ans2 = topDown(arr, dp, target);
+	cout<<"Min coins required using Top Down : "<<(ans2 == INT_MAX ? -1 : ans2)<<endl;
+
+	int ans3 = bottomUp(arr, target);
+	cout<<"Min coins required using Bottom Up : "<<(ans3 == INT_MAX ? -1 : ans3)<<endl;
+	
 }
