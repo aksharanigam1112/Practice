@@ -88,6 +88,26 @@ int bottomUp(string str1, string str2) {
     return dp[0][0];
 }
 
+// TC : O(N*M) & SC : O(min(N,M))
+int bottomUpOptimized(string str1, string str2) {
+
+    vector<int> curr(str1.size()+1,0);
+    vector<int> next(str2.size()+1,0);
+    
+    for(int i=str1.size()-1; i>=0; i--){
+        for(int j=str2.size()-1; j>=0; j--){
+
+            if(str1[i] == str2[j])
+                curr[j] = 1 + next[j+1];
+            else
+                curr[j] = max(next[j], curr[j+1]);
+        }
+
+        next = curr;
+    }
+    
+    return curr[0];
+}
 
 int main()
 {
@@ -103,4 +123,5 @@ int main()
     cout<<"Length of LCS using top down : "<<topDown(str1, str2, 0, 0, dp)<<endl;
 
     cout<<"Length of LCS using bottom up : "<<bottomUp(str1, str2)<<endl;
+    cout<<"Length of LCS using bottom up optimized : "<<bottomUpOptimized(str1, str2)<<endl;
 }
