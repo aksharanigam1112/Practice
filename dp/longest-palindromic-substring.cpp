@@ -56,10 +56,94 @@ int lenMaxPalinBU(string str , int size)
     return ans[0][size-1];
 }
 
+
+/* --------------- NEWER APPROACH FOR SUBSEQUENCE --------------- */
+
+// Similar to Longest Common Subsequence Problem 
+
+int recursion(string str1, string str2, int i, int j) {
+
+    if(i >= str1.size() || j >= str2.size())
+        return 0;
+
+    if(str1[i] == str2[j])
+        return 1 + recursion(str1, str2, i+1, j+1);
+    
+    return max(recursion(str1, str2, i+1, j) , recursion(str1, str2, i, j+1));
+}
+
+int topDown(string str1, string str2, int i, int j, vector<vector<int>> &dp) {
+
+    if(i >= str1.size() || j >= str2.size())
+        return 0;
+
+    if(dp[i][j] != -1)
+        return dp[i][j];
+
+    if(str1[i] == str2[j]) 
+        dp[i][j] = 1 + topDown(str1, str2, i+1, j+1, dp);
+    
+    else 
+        dp[i][j] = max(topDown(str1, str2, i+1, j, dp) , topDown(str1, str2, i, j+1, dp));
+
+    return dp[i][j];    
+}
+
+
+int bottomUp(string str1, string str2) {
+
+    vector<vector<int>> dp (str1.size()+1, vector<int> (str2.size()+1, 0));
+    
+    for(int i=str1.size()-1; i>=0; i--){
+        for(int j=str2.size()-1; j>=0; j--){
+
+            if(str1[i] == str2[j])
+                dp[i][j] = 1 + dp[i+1][j+1];
+            else
+                dp[i][j] = max(dp[i+1][j], dp[i][j+1]);
+        }
+    }
+    
+    return dp[0][0];
+}
+
+int bottomUpOptimized(string str1, string str2) {
+
+    vector<int> curr(str1.size()+1,0);
+    vector<int> next(str2.size()+1,0);
+    
+    for(int i=str1.size()-1; i>=0; i--){
+        for(int j=str2.size()-1; j>=0; j--){
+
+            if(str1[i] == str2[j])
+                curr[j] = 1 + next[j+1];
+            else
+                curr[j] = max(next[j], curr[j+1]);
+        }
+
+        next = curr;
+    }
+    
+    return next[0];
+}
+
 int main()
 {
     string str = "abca";
     cout<<lenMaxPalin(str,0,str.length()-1)<<endl;
     cout<<lenMaxPalinBU(str,str.length())<<endl;
 
+
+    // Newer approach for subsequence
+
+    string str1 = "bbbabd", str2 = str1;
+    reverse(str2.begin(), str2.end());
+
+    cout<<"Length of longest palindromic subsequence using recursion : "<<recursion(str1, str2, 0, 0)<<endl;
+
+    vector<vector<int>> dp(str1.size(), vector<int>(str2.size(), -1));
+    cout<<"Length of longest palindromic subsequence using top down : "<<topDown(str1, str2, 0, 0, dp)<<endl;
+
+    cout<<"Length of longest palindromic subsequence using bottom up : "<<bottomUp(str1, str2)<<endl;
+    cout<<"Length of longest palindromic subsequence using bottom up optimized : "<<bottomUpOptimized(str1, str2)<<endl;
 }
