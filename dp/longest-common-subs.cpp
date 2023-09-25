@@ -1,5 +1,5 @@
 #include<iostream>
-#include<string>
+#include<bits/stdc++.h>
 using namespace std;
 
 // Brute Force TC : O(2^N)
@@ -40,9 +40,67 @@ int lcaBU(string s1, string s2)
     return dp[n][m];
 }
 
+/** ------------------------ NEWER APPROACHES ------------------------ **/
+
+int recursion(string str1, string str2, int i, int j) {
+
+    if(i >= str1.size() || j >= str2.size())
+        return 0;
+
+    if(str1[i] == str2[j])
+        return 1 + recursion(str1, str2, i+1, j+1);
+    
+    return max(recursion(str1, str2, i+1, j) , recursion(str1, str2, i, j+1));
+}
+
+int topDown(string str1, string str2, int i, int j, vector<vector<int>> &dp) {
+
+    if(i >= str1.size() || j >= str2.size())
+        return 0;
+
+    if(dp[i][j] != -1)
+        return dp[i][j];
+
+    if(str1[i] == str2[j]) 
+        dp[i][j] = 1 + topDown(str1, str2, i+1, j+1, dp);
+    
+    else 
+        dp[i][j] = max(topDown(str1, str2, i+1, j, dp) , topDown(str1, str2, i, j+1, dp));
+
+    return dp[i][j];    
+}
+
+
+int bottomUp(string str1, string str2) {
+
+    vector<vector<int>> dp (str1.size()+1, vector<int> (str2.size()+1, 0));
+    
+    for(int i=str1.size()-1; i>=0; i--){
+        for(int j=str2.size()-1; j>=0; j--){
+
+            if(str1[i] == str2[j])
+                dp[i][j] = 1 + dp[i+1][j+1];
+            else
+                dp[i][j] = max(dp[i+1][j], dp[i][j+1]);
+        }
+    }
+    
+    return dp[0][0];
+}
+
+
 int main()
 {
     string str1 = "ABCDT",str2 = "TACAD";
     cout<<"Length of LCS BF:- "<<lcaBF(str1,str2,str1.length()-1,str2.length()-1)<<endl;
     cout<<"Length of LCS BU:- "<<lcaBU(str1,str2)<<endl;
+
+    // Newer approaches : 
+
+    cout<<"Length of LCS using recursion : "<<recursion(str1, str2, 0, 0)<<endl;
+
+    vector<vector<int>> dp(str1.size(), vector<int>(str2.size(), -1));
+    cout<<"Length of LCS using top down : "<<topDown(str1, str2, 0, 0, dp)<<endl;
+
+    cout<<"Length of LCS using bottom up : "<<bottomUp(str1, str2)<<endl;
 }
