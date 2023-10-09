@@ -65,6 +65,23 @@ int findMaxUtil(node* root, int &res)
     return max_single; 
 } 
 
+// Similar to findMaxUntil
+int maxPathSum2(Node* root, int &maxSum) {
+
+    if(root == NULL)
+        return 0;
+
+    int lv = maxPathSum(root->left, maxSum);
+    int rv = maxPathSum(root->right, maxSum);
+
+    maxSum = max(maxSum, root->data);
+    maxSum = max(maxSum, root->data + lv);
+    maxSum = max(maxSum, root->data + rv);
+    maxSum = max(maxSum, root->data + lv + rv);
+
+    return max(root->data, root->data + max(lv,rv));
+}
+
 int main()
 {
     struct node *root = newNode(5);
