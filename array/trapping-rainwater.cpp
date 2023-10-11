@@ -37,26 +37,26 @@ int level(int arr[], int size)
 // TC : O(N)    &   SC : O(1)
 int level2(int arr[], int size) {
 
-    int left=0, right=size-1, leftMax = 0, rightMax = 0, ans = 0;
+    int left=0, right=size-1;
+    int leftMax = arr[left], rightMax = arr[right], ans = 0;
 
-    while(left<=right) {
+    while(left < right) {
         
-        if(leftMax >= rightMax) {
-            ans += max(0, rightMax - arr[right]);
-            rightMax = max(rightMax, arr[right]);
-            right--;
+        if(arr[left] <= arr[right]) {
+            left++;
+            leftMax = max(leftMax, arr[left]);
+            ans += (leftMax - arr[left]);
         }
 
         else {
-            ans += max(0, leftMax - arr[left]);
-            leftMax = max(leftMax, arr[left]);
-            left++;
+            right--;
+            rightMax = max(rightMax, arr[right]);
+            ans += (rightMax - arr[right]);
         }   
     }
 
     return ans;
 }
-
 
 int main()
 {
