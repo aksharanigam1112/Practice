@@ -12,7 +12,7 @@ void print(vector<int> arr) {
 	cout<<endl;
 }
 
-void nextGreaterToTheRight(vector<int>& arr) {
+void nearestGreaterToTheRight(vector<int>& arr) {
 	stack<int> s;
 	vector<int> ans(arr.size(), -1);
 
@@ -30,7 +30,7 @@ void nextGreaterToTheRight(vector<int>& arr) {
 	print(ans);
 }
 
-void nextSmallerToTheRight(vector<int>& arr) {
+void nearestSmallerToTheRight(vector<int>& arr) {
 	stack<int> s;
 	vector<int> ans(arr.size(), -1);
 	
@@ -49,7 +49,7 @@ void nextSmallerToTheRight(vector<int>& arr) {
 }
 
 
-void nextGreaterToTheLeft(vector<int>& arr) {
+void nearestGreaterToTheLeft(vector<int>& arr) {
 	stack<int> s;
 	vector<int> ans(arr.size(), -1);
 
@@ -67,7 +67,7 @@ void nextGreaterToTheLeft(vector<int>& arr) {
 	print(ans);
 }
 
-void nextSmallerToTheLeft(vector<int>& arr) {
+void nearestSmallerToTheLeft(vector<int>& arr) {
 	stack<int> s;
 	vector<int> ans(arr.size(), -1);
 
@@ -93,15 +93,15 @@ int main() {
 	cout<<"Original array : ";
 	print(arr);
 
-	cout<<"Next greater to the right : ";
-	nextGreaterToTheRight(arr);
+	cout<<"Nearest greater to the right : ";
+	nearestGreaterToTheRight(arr);
 
-	cout<<"Next smaller to the right : ";
-	nextSmallerToTheRight(arr);
+	cout<<"Nearest smaller to the right : ";
+	nearestSmallerToTheRight(arr);
 
-	cout<<"Next greater to the left : ";
-	nextGreaterToTheLeft(arr);
+	cout<<"Nearest greater to the left : ";
+	nearestGreaterToTheLeft(arr);
 
-	cout<<"Next smaller to the left : ";
-	nextSmallerToTheLeft(arr);
+	cout<<"Nearest smaller to the left : ";
+	nearestSmallerToTheLeft(arr);
 }
