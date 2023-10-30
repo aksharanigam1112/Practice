@@ -4,77 +4,68 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// TC : O(N) & SC : O(N+N)
 class Histogram
 {
     private: 
-    vector<int>l,r;
+    vector<int>left, right;
 
-    void fromLeft(int arr[], int size)
-    {
-        stack<pair<int,int>>s;
-        
-        for(int i=0;i<size;i++)
-        {
-            if(s.empty())
-            {
-                l.push_back(-1);
-                s.push({arr[i],i});
-            }
-            else
-            {
-                while(!s.empty() && s.top().first>=arr[i])
-                    s.pop();
-                if(s.empty())
-                    l.push_back(-1);
-                else
-                    l.push_back(s.top().second);
-                s.push({arr[i],i});
-            }
+    void nextSmaller(int arr[], int n) {
+        stack<int> s;
+        s.push(-1);
+
+        right.resize(n, -1);
+
+        for(int i=n-1;i>=0;i--) {
+
+            while(s.top() !=-1 && arr[s.top()] >= arr[i])
+                s.pop();
+            
+            right[i] = s.top();
+            s.push(i);
         }
     }
 
-    void fromRight(int arr[], int size)
-    {
-        stack<pair<int,int>>s;
-        
-        for(int i=size-1;i>=0;i--)
-        {
-            if(s.empty())
-            {
-                r.push_back(size);
-                s.push({arr[i],i});
-            }
-            else
-            {
-                while(!s.empty() && s.top().first>=arr[i])
-                    s.pop();
-                if(s.empty())
-                    r.push_back(size);
-                else 
-                    r.push_back(s.top().second);
-                s.push({arr[i],i});
-            }
+    void prevSmaller(int arr[], int n) {
+        stack<int> s;
+        s.push(-1);
+
+        left.resize(n, -1);
+
+        for(int i=0;i<n;i++) {
+
+            while(s.top() !=-1 && arr[s.top()] >= arr[i])
+                s.pop();
+            
+            left[i] = s.top();
+            s.push(i);
         }
-        reverse(r.begin(),r.end());
     }
 
     public:
 
-    int largestRectangle(int arr[], int size)
-    {
-        fromLeft(arr,size);
-        fromRight(arr,size);
-        int area=0;
+    int largestRectangle(int arr[], int size){
+        nextSmaller(arr, size);
+        prevSmaller(arr, size);
 
-        for(int i=0;i<size;i++)
-        {
-            int val = (r[i]-l[i]-1)*arr[i];
-            area = max(area,val);
+        int maxArea = INT_MIN;
+        for(int i=0;i<size;i++) {
+
+            int l = arr[i];
+            if(right[i] == -1)
+                right[i] = size;
+
+            int b = right[i] - left[i] - 1;
+            maxArea = max(maxArea, l*b);
         }
-        return area;
+
+        return maxArea;
     }
+    
 };
 
+// Optimizes space complexity 
+// TC : O(N) & SC : O(N)
 int heights_building_area_from_left(int arr[], int len)
 {
     // 1st pos -> value & 2ns pos is the index
@@ -113,7 +104,8 @@ int main()
 {
     int heights[] = {2,1,5,6,2,3};
     int size = sizeof(heights)/sizeof(heights[0]);
+    
     Histogram h;
     cout<<"Max area formed by histograms : "<<h.largestRectangle(heights,size)<<endl;
-    cout<<"Max area formed by histograms : "<<heights_building_area_from_left(heights, size)<<endl;
+    cout<<"Max area formed by histograms optimized : "<<heights_building_area_from_left(heights, size)<<endl;
 }
