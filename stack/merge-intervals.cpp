@@ -20,7 +20,7 @@ void print(vector<Interval> arr){
     cout<<endl;
 }
 
-// TC : O(N) & SC : 0(N)
+// TC : O(NLogN) & SC : 0(N)
 vector<Interval> mergeOverlappingInterval(vector<Interval> arr) {
     if (arr.empty())
         return vector<Interval>();
@@ -49,7 +49,7 @@ vector<Interval> mergeOverlappingInterval(vector<Interval> arr) {
     return ans;
 } 
 
-// TC : O(N) & SC : 0(1)
+// TC : O(NLogN) & SC : 0(1)
 vector<Interval> mergeOverlappingInterval2(vector<Interval> arr) {
     if (arr.empty())
         return vector<Interval>();
