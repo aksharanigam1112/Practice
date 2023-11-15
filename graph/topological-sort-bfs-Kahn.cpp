@@ -5,67 +5,56 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class Graph
-{
-    private:
-    list<int>*l;
-    int v;
-
-    public:
-    Graph(int nodes)
-    {
-        this->v = nodes;
-        l = new list<int>[v];
+class Graph{
+private:
+    int nodes;
+    map<int, list<int>> adj;
+    
+public:
+    Graph(int n) {
+        this->nodes = n;
     }
 
-    void addEdge(int i , int j)
-    {
-        l[i].push_back(j);
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
     }
 
-    void topological()
-    {
-        int *indegree = new int [v];
+    void topologicalSort() {
+        vector<int> indegree(this->nodes, 0);
 
-        memset(indegree,0,sizeof(indegree));
-
-        for(int i=0;i<v;i++)
-        {
-            for(auto y : l[i])
-                indegree[y]++;
+        for(auto it : adj) {
+            for(int nbr : adj[it.first])
+                indegree[nbr]++;
         }
 
-        //bfs
-        queue<int>q;
-        //Find nodes with 0 indegree
-        for(int i=0;i<v;i++)
-        {
+        queue<int> q;
+        
+        // Find nodes with 0 indegree
+        for(int i=0; i<this->nodes; i++){
             if(indegree[i]==0)
                 q.push(i);
         }
 
-        //start removing elements from the queue
-        while(!q.empty())
-        {
+        while(!q.empty()) {
             int node = q.front();
             cout<<node<<" ";
             q.pop();
 
-            // iterate over the nbrs of that node & reduce indegree by 1
-            for(auto nbr : l[node])
-            {
+            for(int nbr : adj[node]) {
                 indegree[nbr]--;
-                if(indegree[nbr]==0)
+
+                if(indegree[nbr] == 0)
                     q.push(nbr);
             }
         }
+        cout<<endl;
     }
 
 };
 
 int main()
 {
-    Graph g(6); 
+    Graph g(6);
     g.addEdge(5, 2); 
     g.addEdge(5, 0); 
     g.addEdge(4, 0); 
@@ -73,7 +62,5 @@ int main()
     g.addEdge(2, 3); 
     g.addEdge(3, 1); 
 
-    g.topological();
-    cout<<endl;
-    return 0;
+    g.topologicalSort();
 }
