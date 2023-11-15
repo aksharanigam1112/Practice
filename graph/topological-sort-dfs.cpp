@@ -5,54 +5,44 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class Graph
-{
-    private:
-    map<int,list<int>>adj;
+class Graph{
+private:
+    map<int, list<int>> adj;
+    map<int, bool> visited;
+    stack<int> s;
 
-    void dfs(int src,map<int,bool>&visited,stack<int>&s)
-    {
-        visited[src]=true;
-        for(int i : adj[src])
-        {
+    void dfs(int src) {
+        visited[src] = true;
 
-            if(!visited[i])
-                dfs(i,visited,s);
+        for(int nbr : adj[src]) {
+            if(!visited[nbr])
+                dfs(nbr);
         }
         s.push(src);
     }
 
-    void print(stack<int>&s)
-    {
-        while(!s.empty())
-        {
+    void print() {
+        while(!s.empty()) {
             cout<<s.top()<<" ";
             s.pop();
         }
         cout<<endl;
     }
 
-    public:
-    void addEdge(int u,int v)
-    {
+public:
+    void addEdge(int u, int v) {
         adj[u].push_back(v);
     }
-    void topological()
-    {
-        map<int,bool>visited;
-        stack<int>s;
 
-        for(auto i : adj)
-            visited[i.first]=false;
-
-        for(auto i : adj)
-        {
+    void topologicalSort() {
+        for(auto i : adj){
             if(!visited[i.first])
-                dfs(i.first,visited,s);
+                dfs(i.first);
         }
 
-        print(s);
+        print();
     }
+
 };
 
 int main()
@@ -67,5 +57,5 @@ int main()
     g.addEdge(0,0);
     g.addEdge(1,1);
 
-    g.topological();
+    g.topologicalSort();
 }
