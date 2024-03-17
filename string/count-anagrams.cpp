@@ -9,39 +9,37 @@
 #include <string>
 using namespace std;
 
-int count_anagrams(string str, string pat)
-{
-	map<char,int> m;
-	int count, i=0,j=0, ans=0, k=pat.length();
+int count_anagrams(string str, string word) {
+	map<char,int> hash;
+	int k = word.size();
 
-	// Fill the map for the given pattern
-	for(char c : pat)
-		m[c]++;
+	for(char c : word)
+		hash[c]++;
 	
-	count = m.size();
+	int start = 0, ans = 0, count = hash.size();
+	for(int i=0;i<str.length();i++) {
 
-	for(int j=0;j<str.length();j++) 
-	{
-		// If the char of string is present in the window, decrease its value from the map 
-		if (m.find(str[j]) != m.end())
-		{
-			m[str[j]]--;
-			if(m[str[j]] == 0)
-				count--;
+		// If the char matches the word
+		if(hash.find(str[i]) != hash.end()) {
+			hash[str[i]]--;
+
+			count -= hash[str[i]] == 0 ? 1 : 0;
 		}
+ 
+		if(i-start+1 == k) {
 
-		// When window length hasn't breached yet, but in next iteration it will increase
-		// Reduce the window size
-		if(j-i+1 == k)
-		{
-			ans += (count==0) ? 1 : 0;
-            if(m.find(str[i]) != m.end()) 
-            {
-                m[str[i]]++;
-                if(m[str[i]] == 1)
-                    count++;
-            }
-			i++;
+			// if count of distinct chars in hash is 0 => anagram found
+			if(count == 0)
+				ans++;
+
+			// Re-initialize the hash map for the start element
+			if(hash.find(str[start]) != hash.end()) {
+				hash[str[start]]++;
+
+				count += hash[str[start]] == 1 ? 1 : 0;
+			}
+			
+            start++;
 		}
 	}
 
@@ -50,10 +48,8 @@ int count_anagrams(string str, string pat)
 
 
 
-int main()
-{
+int main(){
 	string txt = "aabaabaa", pat = "aaba";
 	// string txt = "forxxorfxdofr", pat = "for";
 	cout<<count_anagrams(txt, pat)<<endl;
 }
-
