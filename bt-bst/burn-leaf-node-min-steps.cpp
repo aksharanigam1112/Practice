@@ -9,15 +9,6 @@ struct node{
     node*left,*right;
 };
 
-struct RT {
-    int height, dist;
-
-    RT(int h, int d){
-        height = h;
-        dist = d;
-    }
-};
-
 node* newNode(int data){
     node*n = new node;
     n->data = data;
