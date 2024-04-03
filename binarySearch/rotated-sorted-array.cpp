@@ -1,8 +1,10 @@
 // A sorted array is rotated at some pivot point. 
 // Find the min element and search a given number. 
 #include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
+//  APPROACH 1 : FIND PIVOT OF THE ROTATION & THEN SEARCHING 
 int findPivot(int arr[], int size)
 {
     if(arr[0]<arr[size-1])
@@ -78,9 +80,47 @@ int search(int arr[], int size, int target)
                 low = mid+1;
         }
     }
-    else
-        return -1;
+    
+    return -1;
 }
+
+
+// APPROACH 2 : WITHOUT FINDING PIVOT & HANDLING DUPLICATES
+int findInRotatedSortedArray(vector<int> arr, int key) {
+
+    int low = 0, high = arr.size()-1, mid;
+
+    while(low <= high) {
+
+        mid = (low+high)/2;
+
+        if(arr[mid] == key)
+            return mid;
+
+        if(arr[low] == arr[mid] && arr[mid] == arr[high]){
+            low++;
+            high--;
+        }
+
+        // 1st half is sorted
+        if(arr[low] <= arr[mid]) {
+
+            // Search for key in the 1st half else key is in 2nd half (non-sorted)
+            if(key >= arr[low] && key <= arr[mid]) 
+                high = mid-1;
+
+            else
+                low = mid+1;
+        }
+
+        // 2nd half is sorted
+        else if(key >= arr[mid] && key <= arr[high])
+            low = mid+1;
+    }
+
+    return -1;
+}
+
 
 int main()
 {
@@ -89,4 +129,7 @@ int main()
     // cout<<"Pivot point of rotated sorted array : "<<findPivot(arr,size)<<endl;
     cout<<"Min Element : "<<findMin(arr,size)<<endl;
     cout<<"Position of search element : "<<search(arr,size,0)<<endl;
+
+    vector<int> ar = {5, 6, 7, 8, 9, 10, 1, 2, 3};
+    cout<<"Position of search element : "<<findInRotatedSortedArray(ar,3)<<endl;
 }
