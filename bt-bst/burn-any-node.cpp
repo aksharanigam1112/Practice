@@ -86,38 +86,99 @@ int burnTreeUtil(Node* root, int target, queue<Node*>& q)
 	
 		cout<<root->data<<endl; 
 		return 1; 
-	} 
+	}
+
+	return -1; 
 } 
 
+
+// TC : O(N^2) & SC : O(N)
 void burnTree(Node* root, int target) 
 { 
 	queue<Node*> q; 
 	
 	burnTreeUtil(root, target, q); 
+	int time = 0;
 	
 	while(!q.empty()) 
 	{ 
-	    int qSize = q.size(); 
-        while(qSize > 0) 
-        { 
-            Node* temp = q.front(); 
-            
-            cout<<temp->data<<" "; 
-            if(temp->left != NULL)  
-                q.push(temp->left); 
-            
-            if(temp->right != NULL)   
-                q.push(temp->right); 
-            
-        // if(q.size()!=1) 
-        // cout << " , "; 
+        Node* temp = q.front(); 
+        
+        cout<<temp->data<<" ";
 
-            q.pop(); 
-            qSize--; 
-	    } 
+        if(temp->left != NULL)  
+            q.push(temp->left); 
+        
+        if(temp->right != NULL)   
+            q.push(temp->right);
+
+        q.pop(); 
 	    cout<<endl; 
 	} 
-} 
+}
+
+
+/*----------------- NEWER APPROCH ---------------*/
+
+// Using DFS 
+// TC : O(N) 	& 	SC : O(N) 
+int burnTime(Node* root, int target, int level, int consider, map<int, vector<int>>&ans){
+	if(root == NULL)
+		return -1;
+
+	if(consider == 1)
+		ans[level].push_back(root->data);
+
+	// 1. If we find the target node, then we know that we have to start from 1 for all the children of the sub-tree 
+	// rooted at this node. In addition, we return 1, meaning that we found the target value.
+	if(root->data == target) {
+		ans[0].push_back(root->data);
+		burnTime(root->left, target, 1, 1, ans);
+		burnTime(root->right, target, 1, 1, ans);
+		return 1;
+	}
+
+	// 2. Recursively call for left & right subtree from the current node. 
+	// Only one of these recursive calls can return 1, 
+	// as the target node can be present only in one of the subtrees
+	int left = burnTime(root->left, target, level+1, consider, ans);
+
+	int right = burnTime(root->right, target, level+1, consider, ans);
+
+
+	// 3. If we get 1 from the left subtree, so we recursively call for right subtree 
+	// (the max value for the left subtree is taken care of in step 1). 
+	if(left != -1){
+		ans[left].push_back(root->data);
+		burnTime(root->right, target, left+1, 1, ans);
+		return left+1;
+	}
+
+	// Conversely, if we get 1 from right subtree, we recursively call for left subtree
+	if(right != -1) {
+		ans[right].push_back(root->data);
+		burnTime(root->left, target, right+1, 1, ans);
+		return right+1;
+	}
+
+	return -1;
+}
+
+void burnTree2(Node* root, int target) {
+	// stores the nodes burnt at each stage
+	map<int, vector<int>> ans;
+	burnTime(root, target, 0, 0, ans);
+
+	for (auto it : ans){
+        for (int ele : it.second)
+            cout<<ele<<" ";
+        
+        cout<<endl;
+    }
+
+    cout<<"Total time to burn the tree : "<<ans.size()<<endl;
+}
+
 
 int main() 
 { 
@@ -133,7 +194,11 @@ int main()
     root->left->right->left->left = newNode(11); 
 	int targetNode = 11; 
 	 
-	burnTree(root, targetNode); 
+	cout<<"Nodes burnt using Recursion : "<<endl; 
+	burnTree(root, targetNode);
 
-	return 0; 
+	cout<<"\nNodes burnt using DFS : "<<endl;
+	burnTree2(root, targetNode);
+
+	return 0;
 } 
