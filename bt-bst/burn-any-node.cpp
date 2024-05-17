@@ -16,12 +16,12 @@ Node* newNode(int data)
 	return temp; 
 } 
 
-int burnTreeUtil(Node* root, int target, queue<Node*>& q) 
+int burnTreeUtil(Node* root, Node* target, queue<Node*>& q) 
 { 
 	if(root == NULL)  
 		return 0; 
 	
-	if(root->data == target) 
+	if(root == target) 
 	{ 
 		cout<<root->data<<endl; 
 		if(root->left != NULL) 
@@ -93,7 +93,7 @@ int burnTreeUtil(Node* root, int target, queue<Node*>& q)
 
 
 // TC : O(N^2) & SC : O(N)
-void burnTree(Node* root, int target) 
+void burnTree(Node* root, Node* target) 
 { 
 	queue<Node*> q; 
 	
@@ -120,9 +120,10 @@ void burnTree(Node* root, int target)
 
 /*----------------- NEWER APPROCH ---------------*/
 
-// Using DFS 
+// Using DFS
+
 // TC : O(N) 	& 	SC : O(N) 
-int burnTime(Node* root, int target, int level, int consider, map<int, vector<int>>&ans){
+int burnTime(Node* root, Node* target, int level, int consider, map<int, vector<int>>&ans){
 	if(root == NULL)
 		return -1;
 
@@ -131,7 +132,7 @@ int burnTime(Node* root, int target, int level, int consider, map<int, vector<in
 
 	// 1. If we find the target node, then we know that we have to start from 1 for all the children of the sub-tree 
 	// rooted at this node. In addition, we return 1, meaning that we found the target value.
-	if(root->data == target) {
+	if(root == target) {
 		ans[0].push_back(root->data);
 		burnTime(root->left, target, 1, 1, ans);
 		burnTime(root->right, target, 1, 1, ans);
@@ -164,7 +165,7 @@ int burnTime(Node* root, int target, int level, int consider, map<int, vector<in
 	return -1;
 }
 
-void burnTree2(Node* root, int target) {
+void burnTree2(Node* root, Node* target) {
 	// stores the nodes burnt at each stage
 	map<int, vector<int>> ans;
 	burnTime(root, target, 0, 0, ans);
@@ -180,6 +181,66 @@ void burnTree2(Node* root, int target) {
 }
 
 
+
+// Using BFS
+
+void buildGraph(Node* node, Node* parent, map<Node*, vector<Node*>> &adjList) {
+	
+	if(node == NULL || adjList.find(node) != adjList.end())
+		return;
+
+	if(parent != NULL){
+		adjList[node].push_back(parent);
+		adjList[parent].push_back(node);
+	}
+
+	buildGraph(node->left, node, adjList);
+	buildGraph(node->right, node, adjList);
+	
+}
+
+void burnTree3(Node* root, Node* target) {
+	if(root == NULL)
+		return ;
+
+	map<Node*, vector<Node*> > adjList;
+	map<Node*,bool> visited;
+	queue<Node*> q;
+	int time = 0;
+	
+	buildGraph(root, NULL, adjList);
+
+	if(adjList.find(target) == adjList.end())
+		return;
+
+	q.push(target);
+	visited[target] = true;
+
+	while(!q.empty()){
+		int size = q.size();
+ 		time++;
+
+ 		// Nodes at same distance (connected)
+        for (int i = 0; i < size; i++) {
+            Node* node = q.front();
+            q.pop();
+            cout<<node->data <<" ";
+
+            for (auto nbr : adjList[node]) {
+                if (visited[nbr])
+                    continue;
+                
+                visited[nbr] = true;
+                q.push(nbr);
+            }
+        }
+        cout << endl;
+	}
+
+	cout<<"Total time to burn the tree : "<<time<<endl;
+}
+
+
 int main() 
 { 
 	Node* root = newNode(1); 
@@ -192,13 +253,17 @@ int main()
     root->left->right->left = newNode(9); 
     root->left->right->right = newNode(10); 
     root->left->right->left->left = newNode(11); 
-	int targetNode = 11; 
+	
+	Node* targetNode = root->left->right->left->left; // 11 
 	 
 	cout<<"Nodes burnt using Recursion : "<<endl; 
 	burnTree(root, targetNode);
 
 	cout<<"\nNodes burnt using DFS : "<<endl;
 	burnTree2(root, targetNode);
+
+	cout<<"\nNodes burnt using BFS : "<<endl;
+	burnTree3(root, targetNode);
 
 	return 0;
 } 
