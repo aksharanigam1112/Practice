@@ -10,34 +10,32 @@ struct node
     node*left,*right;
 };
 
-node * newNode(int data)
-{
+node * newNode(int data){
     node*n = new node;
     n->data = data;
     n->left = n->right = NULL;
+
+    return n;
 }
 
-void printLeftBoundary(node*root)
-{
-    if(root==NULL)
+void printLeftBoundary(node*root){
+
+    if(root==NULL || (root->left == NULL && root->right == NULL))
         return ;
     
+    cout<<root->data<<" ";
+    
     if(root->left)
-    {
-        cout<<root->data<<" ";
         printLeftBoundary(root->left);
-    }
+    
+
     else if(root->right)
-    {
-        cout<<root->data<<" ";
         printLeftBoundary(root->right);
-    }
 }
 
-void printLeafNodes(node*root)
-{
+void printLeafNodes(node*root){
     if(root==NULL)
-        return ;
+        return;
     
     printLeafNodes(root->left);
 
@@ -47,25 +45,20 @@ void printLeafNodes(node*root)
     printLeafNodes(root->right);
 }
 
-void printRightBoundary(node*root)
-{
-    if(root==NULL)
+void printRightBoundary(node*root){
+    if(root==NULL || (root->left == NULL && root->right == NULL))
         return ;
     
     if(root->right)
-    {
         printRightBoundary(root->right);
-        cout<<root->data<<" ";
-    }
+        
     else if(root->left)
-    {
         printRightBoundary(root->left);
-        cout<<root->data<<" ";
-    }
+    
+    cout<<root->data<<" ";
 }
 
-void boundaryTraversal(node*root)
-{
+void boundaryTraversal(node*root){
     if(root==NULL)
         return ;
     
@@ -73,15 +66,13 @@ void boundaryTraversal(node*root)
 
     printLeftBoundary(root->left);
 
-    printLeafNodes(root->left);
-    printLeafNodes(root->right);
+    printLeafNodes(root);
 
     printRightBoundary(root->right);
     cout<<endl;
 }
 
-int main()
-{
+int main(){
     node* root = newNode(20); 
     root->left = newNode(8); 
     root->right = newNode(22); 
