@@ -104,18 +104,20 @@ int findInRotatedSortedArray(vector<int> arr, int key) {
 
         // 1st half is sorted
         if(arr[low] <= arr[mid]) {
-
             // Search for key in the 1st half else key is in 2nd half (non-sorted)
             if(key >= arr[low] && key <= arr[mid]) 
                 high = mid-1;
-
             else
                 low = mid+1;
         }
 
-        // 2nd half is sorted
+        // 2nd half is sorted & key exists in the range
         else if(key >= arr[mid] && key <= arr[high])
             low = mid+1;
+        
+        // 2nd half is sorted, but key exists in the 1st half    
+        else
+            high = mid-1;
     }
 
     return -1;
