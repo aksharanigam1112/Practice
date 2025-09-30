@@ -1,22 +1,50 @@
 #include<iostream>
 #include<bits/stdc++.h>
 using namespace std;
-struct node
-{
+struct node {
     int data;
     node*left,*right;
 };
 
-node* newNode(int key) 
-{ 
+node* newNode(int key) { 
     node *temp = new node; 
     temp->data = key; 
     temp->left = temp->right = NULL; 
     return temp; 
 }
 
-// use hash to store the level order and then print first left to right & the vice-versa
+// Using hash to store the level order and then print left to right & the vice-versa
+// TC : O(N)    &   SC : O(N)
+void preOrder(node* root, int level, map<int, deque<int>> &hash, bool leftToRight) {
+    if(root == NULL)
+        return;
 
+    if(leftToRight)
+        hash[level].push_back(root->data);
+    else
+        hash[level].push_front(root->data);
+
+    preOrder(root->left, level+1, hash, !leftToRight);
+    preOrder(root->right, level+1, hash, !leftToRight);
+}
+
+void spiralOrder(node* root) {
+    if(root == NULL)
+        return;
+
+    map<int, deque<int>> hash;
+    preOrder(root, 1, hash, true);
+
+    for(auto [level, q] : hash) {
+
+        while(!q.empty()){
+            int data = q.front();
+            q.pop_front();
+
+            cout<<data<<", ";
+        }
+    }
+}
 
 // using 2 stacks
 void zigZag(node*root)
@@ -31,7 +59,7 @@ void zigZag(node*root)
             node *ele = curr.top();
             curr.pop();
 
-            cout<<ele->data<<" ";
+            cout<<ele->data<<", ";
             if(LRdir == false)
             {
                 if(ele->left != NULL)
@@ -51,26 +79,39 @@ void zigZag(node*root)
             break;
         LRdir = !LRdir;
         swap(curr,next);
-        cout<<endl;
+        // cout<<endl;
     }
     cout<<endl;
 }
 
 
-int main()
-{
+int main() {
     struct node *root = newNode(3);
     root->left = newNode(9);
     root->right = newNode(20);
-    // root->left->left = newNode('d');
-    // root->left->right = newNode('e');
+    
     root->right->right = newNode(7);
     root->right->left = newNode(15);
-    // root->left->right->left = newNode('f');
-    // root->left->right->right = newNode('g');
-    // root->left->right->left->left = newNode('o');
-    // root->left->right->right->left = newNode('p');
-    // root->left->right->right->right = newNode('l');
 
+    cout<<"Zig Zag : "; 
     zigZag(root);
+    cout<<endl;
+
+
+    // node *root2 = newNode(1);
+    // root2->left = newNode(2);
+    // root2->right = newNode(3);
+
+    // root2->left->left = newNode(4);
+    // root2->left->right = newNode(5);
+    // root2->right->left = newNode(6);
+    // root2->right->right = newNode(7);
+
+
+    // root2->right->right->left = newNode(8);
+    // root2->right->right->right = newNode(9);
+
+    cout<<"Spiral Order : ";
+    spiralOrder(root);
+    cout<<endl;
 }
