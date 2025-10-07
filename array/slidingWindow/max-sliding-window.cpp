@@ -38,4 +38,4 @@ int main()
 	int k = 3; 
 	printKMax(arr, n, k); 
 	return 0; 
-} 
+}
